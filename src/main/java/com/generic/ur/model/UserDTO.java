@@ -19,9 +19,10 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-"userFirstName",
-"userMiddleName",
-"userLastName",
+"firstName",
+"middleName",
+"lastName",
+"email",
 "userId",
 "password",
 "userAddressDTO"
@@ -29,26 +30,36 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 public class UserDTO {
 
 @NotNull
-@JsonProperty("userFirstName")
-private String userFirstName;
-@NotNull
-@JsonProperty("userMiddleName")
-private String userMiddleName;
+@JsonProperty("firstName")
+@Size(min=3,max=25, message="First name should be in between 3 to 25 in length")
+private String firstName;
 
 @NotNull
-@JsonProperty("userLastName")
-private String userLastName;
+@Size(min=1,max=25, message="Middle name should be in between 1 to 25 in length")
+@JsonProperty("middleName")
+private String middleName;
 
 @NotNull
+@Size(min=3,max=25, message="Middle name should be in between 3 to 25 in length")
+@JsonProperty("lastName")
+private String lastName;
+
+@NotNull
+@Size(min=1,max=30, message="Email should be in between 1 to 30 in length")
+@JsonProperty("email")
+private String email;
+
+@NotNull
+@Size(min=8,max=20, message="User name should be in between 8 to 20 in length")
 @JsonProperty("userId")
 private String userId;
 @NotNull
-@Size(min=5,max=10, message="Password should be in between 5 to 10 in length")
+@Size(min=8,max=20, message="Password should be in between 8 to 20 in length")
 @JsonProperty("password")
 private String password;
 
 @JsonIgnore
-private boolean isPresent= true;
+private boolean isPresent= true; 	
 
 
 @NotNull
@@ -58,12 +69,15 @@ private List<UserAddressDTO> userAddressDTO = null;
 @JsonIgnore
 private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-public UserDTO(String userFirstName, String userMiddleName, String userLastName, String userId,
-		String password,List<UserAddressDTO> userAddressDTO) {
+
+
+
+public UserDTO(String firstName, String middleName, String lastName,String email, String userId,String password,List<UserAddressDTO> userAddressDTO) {
 	super();
-	this.userFirstName = userFirstName;
-	this.userMiddleName = userMiddleName;
-	this.userLastName = userLastName;
+	this.firstName = firstName;
+	this.middleName = middleName;
+	this.lastName = lastName;
+	this.email=email;
 	this.userId = userId;
 	this.password = password;
 	this.userAddressDTO = userAddressDTO;
@@ -74,39 +88,49 @@ public UserDTO() {
 	
 }
 
-@JsonProperty("userFirstName")
-public String getUserFirstName() {
-return userFirstName;
+@JsonProperty("firstName")
+public String getFirstName() {
+return firstName;
 }
 
-@JsonProperty("userFirstName")
-public void setUserFirstName(String userFirstName) {
-this.userFirstName = userFirstName;
+@JsonProperty("firstName")
+public void setFirstName(String firstName) {
+this.firstName = firstName;
 }
 
-@JsonProperty("userMiddleName")
-public String getUserMiddleName() {
-return userMiddleName;
+@JsonProperty("middleName")
+public String getMiddleName() {
+return middleName;
 }
 
-@JsonProperty("userMiddleName")
-public void setUserMiddleName(String userMiddleName) {
-this.userMiddleName = userMiddleName;
+@JsonProperty("middleName")
+public void setMiddleName(String middleName) {
+this.middleName = middleName;
 }
 
-@JsonProperty("userLastName")
-public String getUserLastName() {
-return userLastName;
+@JsonProperty("lastName")
+public String getLastName() {
+return lastName;
 }
 
-@JsonProperty("userLastName")
-public void setUserLastName(String userLastName) {
-this.userLastName = userLastName;
+@JsonProperty("lastName")
+public void setLastName(String lastName) {
+this.lastName = lastName;
 }
 
 @JsonProperty("userId")
 public String getUserId() {
 return userId;
+}
+
+@JsonProperty("email")
+public String getEmail() {
+	return email;
+}
+
+@JsonProperty("email")
+public void setEmail(String email) {
+	this.email = email;
 }
 
 @JsonProperty("userId")

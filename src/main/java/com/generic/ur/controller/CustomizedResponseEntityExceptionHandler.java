@@ -26,4 +26,6 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 	        ex.getBindingResult().toString());
 	    return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
     }
+
+
 }

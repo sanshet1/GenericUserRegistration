@@ -8,11 +8,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class UserLoginDTO {
 	
 @NotNull
+@Size(min=8,max=20, message="Username should be in between 5 to 10 in length")
 @JsonProperty("userId")
 private String userId;
 
 @NotNull
-@Size(min=5,max=10, message="Password should be in between 5 to 10 in length")
+@Size(min=8,max=20, message="Password should be in between 5 to 10 in length")
 @JsonProperty("password")
 private String password;
 

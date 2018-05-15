@@ -26,6 +26,7 @@ public static User copyUserDTOtoUserEntity(UserDTO userDTO){
 	
 	
 }
+
 public static UserDTO copyUserEntitytoUserDTO(User user){
 
 	UserDTO userDTO = new DozerBeanMapper().map(user, UserDTO.class);

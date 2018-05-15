@@ -3,6 +3,8 @@ package com.generic.ur.controller;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -36,10 +38,10 @@ public class UserRegistrationControllerTest {
 	private UserRegistrationService userRegistrationService;
 	
 		
-	UserAddressDTO userAddressHome= new UserAddressDTO("H","Kumar Paradise","Near Gold Gym","Magarpatta Road","Near Gold Gym","Pune","Pune","MH","India","411036");
-	UserAddressDTO userAddressOffice= new UserAddressDTO("O","Capgemini","Tower3, Cybercity","Magarpatta Road","Near Gold Gym","Pune","Pune","MH","India","411036");
+	UserAddressDTO userAddressHome= new UserAddressDTO("R","Kumar Paradise","Near Gold Gym","Magarpatta Road","Pune","411036");
+	UserAddressDTO userAddressOffice= new UserAddressDTO("P","Kumar Paradise","Near Gold Gym","Magarpatta Road","Pune","411036");
 		
-	UserDTO mockUserDTO = new UserDTO("Santosh","Rachppa","Shetkar","Shetkar","ABCDEF",Arrays.asList(userAddressHome, userAddressOffice));	
+	UserDTO mockUserDTO = new UserDTO("Santosh","Rachppa","Shetkar","santos@abc.com","Shetkar","ABCDEF",Arrays.asList(userAddressHome, userAddressOffice));	
 
 	
 	@Test
@@ -51,7 +53,7 @@ public class UserRegistrationControllerTest {
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();	
 		
 		System.out.println(result.getResponse().getContentAsString());
-		String expected = "{\"userFirstName\":\"Santosh\",\"userMiddleName\":\"Rachppa\",\"userLastName\":\"Shetkar\",\"userId\":\"Shetkar\",\"password\":\"ABCDEF\",\"UserAddressDTO\":[{\"type\":\"H\",\"flatNumber\":\"Kumar Paradise\",\"buildingName\":\"Near Gold Gym\",\"streetName\":\"Magarpatta Road\",\"landMark\":\"Near Gold Gym\",\"city\":\"Pune\",\"district\":\"Pune\",\"state\":\"MH\",\"country\":\"India\",\"zipCode\":\"411036\"},{\"type\":\"O\",\"flatNumber\":\"Capgemini\",\"buildingName\":\"Tower3, Cybercity\",\"streetName\":\"Magarpatta Road\",\"landMark\":\"Near Gold Gym\",\"city\":\"Pune\",\"district\":\"Pune\",\"state\":\"MH\",\"country\":\"India\",\"zipCode\":\"411036\"}]}";
+		String expected = "{\"firstName\":\"Santosh\",\"middleName\":\"Rachppa\",\"lastName\":\"Shetkar\",\"email\":\"santos@abc.com\",\"userId\":\"Shetkar\",\"password\":\"ABCDEF\",\"userAddressDTO\":[{\"type\":\"R\",\"address1\":\"Kumar Paradise\",\"address2\":\"Near Gold Gym\",\"street\":\"Magarpatta Road\",\"city\":\"Pune\",\"pinCode\":\"411036\"},{\"type\":\"P\",\"address1\":\"Kumar Paradise\",\"address2\":\"Near Gold Gym\",\"street\":\"Magarpatta Road\",\"city\":\"Pune\",\"pinCode\":\"411036\"}]}";
 		JSONAssert.assertEquals(expected, result.getResponse()
 				.getContentAsString(), false);
 
@@ -60,14 +62,16 @@ public class UserRegistrationControllerTest {
 	@Test
 	public void createUser() throws Exception {
 	
+		Map map=new HashMap();
+		map.put("Result","Shetkar user is created successfully!");
 		
-		ResponseEntity<String> mockFeedback=new ResponseEntity<String>("Shetkar", HttpStatus.CREATED);
+		ResponseEntity<Map> mockFeedback=new ResponseEntity<Map>(map, HttpStatus.CREATED);
 		
 		Mockito.when(
 				userRegistrationService.createUser(
 						Mockito.any(UserDTO.class))).thenReturn(mockFeedback);
 
-		String  request = "{\"userFirstName\":\"Santosh\",\"userMiddleName\":\"Rachppa\",\"userLastName\":\"Shetkar\",\"userId\":\"Shetkar\",\"password\":\"ABCDEF\",\"UserAddressDTO\":[{\"type\":\"H\",\"flatNumber\":\"Kumar Paradise\",\"buildingName\":\"Near Gold Gym\",\"streetName\":\"Magarpatta Road\",\"landMark\":\"Near Gold Gym\",\"city\":\"Pune\",\"district\":\"Pune\",\"state\":\"MH\",\"country\":\"India\",\"zipCode\":\"411036\"},{\"type\":\"O\",\"flatNumber\":\"Capgemini\",\"buildingName\":\"Tower3, Cybercity\",\"streetName\":\"Magarpatta Road\",\"landMark\":\"Near Gold Gym\",\"city\":\"Pune\",\"district\":\"Pune\",\"state\":\"MH\",\"country\":\"India\",\"zipCode\":\"411036\"}]}";
+		String  request = "{\"firstName\":\"Santosh\",\"middleName\":\"Rachppa\",\"lastName\":\"Shetkar\",\"email\":\"santos@abc.com\",\"userId\":\"Shetkar12\",\"password\":\"ABCDEFGH\",\"userAddressDTO\":[{\"type\":\"R\",\"address1\":\"Kumar Paradise\",\"address2\":\"Near Gold Gym\",\"street\":\"Magarpatta Road\",\"city\":\"Pune\",\"pinCode\":\"411036\"},{\"type\":\"P\",\"address1\":\"Kumar Paradise\",\"address2\":\"Near Gold Gym\",\"street\":\"Magarpatta Road\",\"city\":\"Pune\",\"pinCode\":\"411036\"}]}";
 		
 		RequestBuilder requestBuilder = MockMvcRequestBuilders
 				.post("/user")
